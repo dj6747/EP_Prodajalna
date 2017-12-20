@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MyProfileController extends Controller
 {
@@ -23,6 +24,6 @@ class MyProfileController extends Controller
      */
     public function index()
     {
-        return view('my-profile');
+        return view('my-profile')->with('user', Auth::user());
     }
 }
