@@ -18,5 +18,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
-Route::resource('my-profile', 'MyProfileController');
+Route::resources([
+    'my-profile' => 'MyProfileController',
+    'sellers' => 'SellerController',
+    'customers' => 'CustomerController'
+]);

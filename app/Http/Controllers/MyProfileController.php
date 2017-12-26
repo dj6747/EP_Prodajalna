@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\ZipCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
 class MyProfileController extends Controller
 {
@@ -24,6 +28,46 @@ class MyProfileController extends Controller
      */
     public function index()
     {
-        return view('my-profile')->with('user', Auth::user());
+        return view('my-profile')
+            ->with('user', Auth::user())
+            ->with('zip_codes', ZipCode::all());
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
+        $data = Input::all();
+        $zip_code_ids = ZipCode::all()->pluck('id')->toArray();
+        $validator = Validator::make($data, [
+            'firstname' => 'required|string|max:20',
+            'lastname' => 'required|string|max:20',
+            'phone' => 'required',
+            'address' => 'required|string',
+            'zip_code_id' => ['required', Rule::in($zip_code_ids)]
+        ]);
+
+        //TODO: email, password
+
+        if ($validator->fails()) {
+            return redirect()->route('my-profile.index')
+                ->withErrors($validator)
+                ->withInput(Input::except('password', 'password_confirmation', 'oldpassword'));
+        } else {
+            $user = Auth::user();
+            $user->firstname = $data['firstname'];
+            $user->lastname = $data['lastname'];
+            $user->phone = $data['phone'];
+            $user->address = $data['address'];
+            $user->zip_code_id = $data['zip_code_id'];
+            $user->save();
+            return redirect()->route('home');
+        }
+
+    }
+
 }

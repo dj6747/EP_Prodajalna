@@ -8,7 +8,7 @@
                     <div class="panel-heading">My profile</div>
 
                     <div class="panel-body">
-                        <form class="form-horizontal" method="POST" action="{{ URL::to('my-profile/edit') }}">
+                        {!!  Form::open(array('url' => '/my-profile/update/', 'method' => 'PUT', 'class' => 'form-horizontal')) !!}
                             {{ csrf_field() }}
 
                             <div class="form-group{{ $errors->has('firstname') ? ' has-error' : '' }}">
@@ -43,7 +43,7 @@
                                 <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" name="email" value="{{ $user->email  }}" required>
+                                    <input id="email" type="email" class="form-control" name="email" value="{{ $user->email  }}" disabled>
 
                                     @if ($errors->has('email'))
                                         <span class="help-block">
@@ -69,11 +69,48 @@
                             </div>
 
 
+                            <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
+                                <label for="address" class="col-md-4 control-label">Address</label>
+
+                                <div class="col-md-6">
+                                    <input id="address" type="text" class="form-control" name="address" value="{{ $user->address }}" required>
+
+                                    @if ($errors->has('address'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('address') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group{{ $errors->has('zip_code_id') ? ' has-error' : '' }}">
+                                <label for="zip_code_id" class="col-md-4 control-label">Zip code</label>
+
+                                <div class="col-md-6">
+                                    <select id="zip_code_id" name="zip_code_id">
+                                        @foreach($zip_codes as $zip_code)
+                                            @if ($zip_code->id === $user->zip_code_id)
+                                                <option value="{{$zip_code->id}}" selected>{{$zip_code->code}} {{$zip_code->postal_name}}</option>
+                                            @else
+                                                <option value="{{$zip_code->id}}">{{$zip_code->code}} {{$zip_code->postal_name}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+
+                                    @if ($errors->has('zip_code_id'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('zip_code_id') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
+
                             <div class="form-group{{ $errors->has('old_password') ? ' has-error' : '' }}">
                                 <label for="oldpassword" class="col-md-4 control-label">Old Password</label>
 
                                 <div class="col-md-6">
-                                    <input id="oldpassword" type="password" class="form-control" name="oldpassword" required>
+                                    <input id="oldpassword" type="password" class="form-control" name="oldpassword">
 
                                     @if ($errors->has('oldpassword'))
                                         <span class="help-block">
@@ -113,7 +150,7 @@
                                     </button>
                                 </div>
                             </div>
-                        </form>
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>
