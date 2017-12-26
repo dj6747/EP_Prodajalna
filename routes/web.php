@@ -18,6 +18,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+//TODO: nastavi  middleware za admin/customer/seller
+
 Route::resources([
     'my-profile' => 'MyProfileController',
     'sellers' => 'SellerController',

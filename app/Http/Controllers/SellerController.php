@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Seller;
+use App\Models\ZipCode;
 use Illuminate\Http\Request;
 
 class SellerController extends Controller
@@ -58,7 +59,9 @@ class SellerController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('sellers.edit')
+            ->with('seller', Seller::find($id))
+            ->with('zip_codes', ZipCode::all());
     }
 
     /**
@@ -81,6 +84,7 @@ class SellerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Seller::destroy($id);
+        return null;
     }
 }
