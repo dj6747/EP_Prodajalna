@@ -15,4 +15,13 @@ class Admin extends User
         });
     }
 
+    public static function menu_items() {
+        return [
+            [
+                'title' => 'Sellers',
+                'route' => route('sellers.index')
+            ]
+        ];
+    }
+
 }

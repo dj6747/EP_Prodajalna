@@ -43,38 +43,14 @@ class User extends Authenticatable
     }
 
 
-    public function menu_items() {
+    public function get_menu_items() {
         if ($this->role === self::ROLE_ADMIN) {
-            return $this->admin_menu_items();
+            return Admin::menu_items();
         } else if ($this->role === self::ROLE_SELLER) {
-            return $this->seller_menu_items();
+            return Seller::menu_items();
         }
 
-        return $this->customer_menu_items();
-    }
-
-
-    private function admin_menu_items() {
-        return [
-            [
-                'title' => 'Sellers',
-                'route' => route('sellers.index')
-            ]
-        ];
-    }
-
-
-    private function seller_menu_items() {
-        return [
-            [
-                'title' => 'Customers',
-                'route' => route('customers.index')
-            ]
-        ];
-    }
-
-    private function customer_menu_items() {
-        return [];
+        return Customer::menu_items();
     }
 
 }

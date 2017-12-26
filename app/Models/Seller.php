@@ -15,4 +15,14 @@ class Seller extends User
         });
     }
 
+
+    public static function menu_items() {
+        return [
+            [
+                'title' => 'Customers',
+                'route' => route('customers.index')
+            ]
+        ];
+    }
+
 }

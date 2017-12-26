@@ -15,4 +15,8 @@ class Customer extends User
         });
     }
 
+    public static function menu_items() {
+        return [];
+    }
+
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\ZipCode;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -13,7 +15,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        return view('customers.index')
+            ->with('customers', Customer::all());
     }
 
     /**
@@ -56,7 +59,9 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('customers.edit')
+            ->with('customer', Customer::find($id))
+            ->with('zip_codes', ZipCode::all());
     }
 
     /**
@@ -79,6 +84,7 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Customer::destroy($id);
+        return null;
     }
 }

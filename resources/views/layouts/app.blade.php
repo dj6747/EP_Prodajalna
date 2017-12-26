@@ -37,7 +37,7 @@
                     <!-- Left Side Of Navbar -->
                     @auth
                         <ul class="nav navbar-nav">
-                            @foreach(Auth::user()->menu_items() as $menu_item)
+                            @foreach(Auth::user()->get_menu_items() as $menu_item)
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{$menu_item['route']}}">{{$menu_item['title']}}</a>
                                 </li>
@@ -86,6 +86,13 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': '{{csrf_token()}}'
+            }
+        });
+    </script>
     @yield('scripts')
 </body>
 </html>

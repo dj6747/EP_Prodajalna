@@ -17,20 +17,20 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($sellers as $seller)
+        @foreach($customers as $customer)
             <tr>
                 <th scope="row">{{$loop->iteration}}</th>
-                <td>{{$seller->firstname}}</td>
-                <td>{{$seller->lastname}}</td>
-                <td>{{$seller->email}}</td>
-                <td>{{$seller->phone}}</td>
-                <td>{{$seller->address}}</td>
-                <td>{{$seller->zip_code->full_name()}}</td>
-                <td>{{$seller->active}}</td>
+                <td>{{$customer->firstname}}</td>
+                <td>{{$customer->lastname}}</td>
+                <td>{{$customer->email}}</td>
+                <td>{{$customer->phone}}</td>
+                <td>{{$customer->address}}</td>
+                <td>{{$customer->zip_code->full_name()}}</td>
+                <td>{{$customer->active}}</td>
                 <td>
                     <div aria-label="actions">
-                        <a href="{{route('sellers.edit', ['id' => $seller->id])}}" type="button" class="btn btn-primary btn-xs">Edit</a>
-                        <a href="javascript:removeSeller('{{$seller->firstname}}', '{{$seller->id}}')" type="button" class="btn btn-danger btn-xs">Delete</a>
+                        <a href="{{route('customers.edit', ['id' => $customer->id])}}" type="button" class="btn btn-primary btn-xs">Edit</a>
+                        <a href="javascript:removecustomer('{{$customer->firstname}}', '{{$customer->id}}')" type="button" class="btn btn-danger btn-xs">Delete</a>
                     </div>
 
                 </td>
@@ -45,11 +45,11 @@
 @section('scripts')
     <script type="application/javascript">
 
-        var removeSeller = function(name, id) {
-            var c = confirm('Delete seller ' + name + '?');
+        var removecustomer = function(name, id) {
+            var c = confirm('Delete customer ' + name + '?');
             if (c) {
                 return $.ajax({
-                    url: '/sellers/'+id,
+                    url: '/customers/'+id,
                     type: 'DELETE',
                     success: function(res) {
                         window.location.reload();
