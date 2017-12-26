@@ -39,7 +39,7 @@ class User extends Authenticatable
 
 
     public function zip_code() {
-        $this->hasOne('App\Models\ZipCode', 'zip_code_id');
+        return $this->hasOne('App\Models\ZipCode', 'id', 'zip_code_id');
     }
 
 

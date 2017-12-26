@@ -15,4 +15,8 @@ class ZipCode extends Model
     protected $fillable = [
         'code', 'postal_name'
     ];
+
+    public function full_name() {
+        return $this->code . ' ' . $this->postal_name;
+    }
 }
