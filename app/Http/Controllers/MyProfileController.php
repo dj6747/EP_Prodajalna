@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ZipCode;
+use App\Models\ZipCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;

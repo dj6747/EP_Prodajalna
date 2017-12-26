@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -39,7 +39,7 @@ class User extends Authenticatable
 
 
     public function zip_code() {
-        $this->hasOne('App\ZipCode', 'zip_code_id');
+        $this->hasOne('App\Models\ZipCode', 'zip_code_id');
     }
 
 
