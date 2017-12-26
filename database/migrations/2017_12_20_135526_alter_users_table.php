@@ -16,6 +16,7 @@ class AlterUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('address')->nullable();
             $table->integer('zip_code_id')->unsigned();
+            $table->boolean('active')->default(true);
 
             $table->foreign('zip_code_id')->references('id')->on('zip_codes');
         });
@@ -29,7 +30,7 @@ class AlterUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['address', 'zip_code_id']);
+            $table->dropColumn(['address', 'zip_code_id', 'active']);
         });
     }
 }
