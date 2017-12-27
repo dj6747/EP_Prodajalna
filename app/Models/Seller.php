@@ -21,7 +21,12 @@ class Seller extends User
             [
                 'title' => 'Customers',
                 'route' => route('customers.index')
+            ],
+            [
+                'title' => 'Articles',
+                'route' => route('articles.index')
             ]
+
         ];
     }
 
