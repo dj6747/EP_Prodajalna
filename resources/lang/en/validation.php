@@ -99,11 +99,7 @@ return [
     |
     */
 
-    'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
-    ],
+    'password_check' => 'Password not correct.',
 
     /*
     |--------------------------------------------------------------------------

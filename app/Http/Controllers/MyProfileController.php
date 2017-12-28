@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ZipCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
@@ -43,15 +44,22 @@ class MyProfileController extends Controller
     {
         $data = Input::all();
         $zip_code_ids = ZipCode::all()->pluck('id')->toArray();
-        $validator = Validator::make($data, [
+        $rules = [
             'firstname' => 'required|string|max:20',
             'lastname' => 'required|string|max:20',
+            'email' => ['required', 'email', Rule::unique('users')->ignore(Auth::user()->id)],
             'phone' => 'required',
             'address' => 'required|string',
             'zip_code_id' => ['required', Rule::in($zip_code_ids)]
-        ]);
+        ];
 
-        //TODO: email, password
+        if ($data['oldpassword']) {
+            $rules['oldpassword'] = 'required_with:password|password_check:'.Auth::user()->password;
+            $rules['password'] = 'required|min:6|confirmed|different:oldpassword';
+        }
+
+        $validator = Validator::make($data, $rules);
+
 
         if ($validator->fails()) {
             return redirect()->route('my-profile.index')
@@ -64,10 +72,16 @@ class MyProfileController extends Controller
             $user->phone = $data['phone'];
             $user->address = $data['address'];
             $user->zip_code_id = $data['zip_code_id'];
+            $user->email = $data['email'];
+
+            if ($data['password']) {
+                $user->password = Hash::make($data['password']);
+            }
+
             $user->save();
-            return redirect()->route('home');
         }
 
+        return redirect()->route('home');
     }
 
 }

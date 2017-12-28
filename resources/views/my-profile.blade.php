@@ -43,7 +43,7 @@
                                 <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" name="email" value="{{ $user->email  }}" disabled>
+                                    <input id="email" type="email" class="form-control" name="email" value="{{ $user->email  }}">
 
                                     @if ($errors->has('email'))
                                         <span class="help-block">
@@ -106,7 +106,7 @@
                             </div>
 
 
-                            <div class="form-group{{ $errors->has('old_password') ? ' has-error' : '' }}">
+                            <div class="form-group{{ $errors->has('oldpassword') ? ' has-error' : '' }}">
                                 <label for="oldpassword" class="col-md-4 control-label">Old Password</label>
 
                                 <div class="col-md-6">

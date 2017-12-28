@@ -38,12 +38,14 @@ class User extends Authenticatable
     ];
 
 
-    public function zip_code() {
+    public function zip_code()
+    {
         return $this->hasOne('App\Models\ZipCode', 'id', 'zip_code_id');
     }
 
 
-    public function get_menu_items() {
+    public function get_menu_items()
+    {
         if ($this->role === self::ROLE_ADMIN) {
             return Admin::menu_items();
         } else if ($this->role === self::ROLE_SELLER) {
