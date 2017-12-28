@@ -8,7 +8,7 @@
                     <div class="panel-heading">My profile</div>
 
                     <div class="panel-body">
-                        {!!  Form::open(array('url' => '/sellers/update/'.$seller->id, 'method' => 'PUT', 'class' => 'form-horizontal')) !!}
+                        {!!  Form::model($seller, array('route' => array('sellers.update', $seller->id), 'method' => 'PUT', 'class' => 'form-horizontal')) !!}
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('firstname') ? ' has-error' : '' }}">
@@ -43,7 +43,7 @@
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ $seller->email  }}" disabled>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ $seller->email  }}">
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
