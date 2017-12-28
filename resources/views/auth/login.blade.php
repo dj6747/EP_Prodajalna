@@ -7,6 +7,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
 
+                @if($errors->any())
+                    <div class="alert alert-danger">{{$errors->first()}}</div>
+                @endif
+
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
