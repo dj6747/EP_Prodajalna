@@ -16,45 +16,45 @@ class Order extends Model
     ];
 
 
-    public function permanently_cancelled()
+    public function isPermanentlyCancelled()
     {
-        return $this->status === self::PERMANENTLY_CANCELLED;
+        return $this->review_status === self::PERMANENTLY_CANCELLED;
     }
 
-    public function cancelled()
+    public function isCancelled()
     {
-        return $this->status === self::CANCELLED;
+        return $this->review_status === self::CANCELLED;
     }
 
-    public function waiting()
+    public function isWaiting()
     {
-        return $this->status === self::WAITING;
+        return $this->review_status === self::WAITING;
     }
 
-    public function confirmed()
+    public function isConfirmed()
     {
-        return $this->status === self::CONFIRMED;
+        return $this->review_status === self::CONFIRMED;
     }
 
 
     public function scopePermanentlyCancelled($query)
     {
-        return $query->where('status', self::PERMANENTLY_CANCELLED);
+        return $query->where('review_status', self::PERMANENTLY_CANCELLED);
     }
 
     public function scopeCancelled($query)
     {
-        return $query->where('status', self::CANCELLED);
+        return $query->where('review_status', self::CANCELLED);
     }
 
     public function scopeWaiting($query)
     {
-        return $query->where('status', self::WAITING);
+        return $query->where('review_status', self::WAITING);
     }
 
     public function scopeConfirmed($query)
     {
-        return $query->where('status', self::CONFIRMED);
+        return $query->where('review_status', self::CONFIRMED);
     }
 
     public function articles()

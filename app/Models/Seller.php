@@ -25,6 +25,10 @@ class Seller extends User
             [
                 'title' => 'Articles',
                 'route' => route('articles.index')
+            ],
+            [
+                'title' => 'Orders',
+                'route' => route('orders.waiting')
             ]
 
         ];
