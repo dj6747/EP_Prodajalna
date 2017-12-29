@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -33,9 +35,19 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $bag = $request->session()->get('shopping_cart.articles', []);
+
+        $articles = Article::whereIn('id', array_column($bag, 'id'));
+
+        $bag = collect($bag)->map(function($item) use ($articles) {
+            $article = $articles->where('id', $item['id'])->first();
+            $article->quantity = $item['quantity'];
+            return $article;
+        });
+
+        return view('orders.create')->with('shopping_bag', $bag)->with('user', Auth::user());
     }
 
     /**
@@ -46,7 +58,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //TODO: store to orders table, articles are in session
     }
 
     /**

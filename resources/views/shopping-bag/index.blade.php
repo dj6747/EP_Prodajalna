@@ -11,6 +11,8 @@
                 <button class="btn btn-danger" onclick="remove_article('{{$article->id}}')">Remove article</button>
             </div>
         @endforeach
+        <br>
+        <a class="btn btn-success" href="{{route('orders.create')}}">Order</a>
     </div>
 @endsection
 
