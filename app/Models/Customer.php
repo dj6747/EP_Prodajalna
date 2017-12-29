@@ -21,6 +21,10 @@ class Customer extends User
                 'title' => 'Shopping bag',
                 'route' => route('shopping-bag.index')
             ],
+            [
+                'title' => 'Orders',
+                'route' => route('orders.index')
+            ],
         ];
     }
 

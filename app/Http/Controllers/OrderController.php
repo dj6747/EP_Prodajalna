@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +17,12 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return view('orders.waiting')->with('orders', Order::waiting()->orderBy('created_at', 'desc')->get());
+        $view_name = 'waiting';
+        if (Auth::user()->role === User::ROLE_CUSTOMER) {
+            $view_name = 'waiting-customer';
+        }
+
+        return view('orders.'.$view_name)->with('orders', Order::waiting()->orderBy('created_at', 'desc')->get());
     }
 
     public function waitingList()
@@ -26,7 +32,19 @@ class OrderController extends Controller
 
     public function confirmedList()
     {
-        return view('orders.confirmed')->with('orders', Order::confirmed()->orderBy('created_at', 'desc')->get());
+        $view_name = 'confirmed';
+        if (Auth::user()->role === User::ROLE_CUSTOMER) {
+            $view_name = 'confirmed-customer';
+        }
+
+        return view('orders.'.$view_name)->with('orders', Order::confirmed()->orderBy('created_at', 'desc')->get());
+    }
+
+
+    public function cancelledList()
+    {
+        $view_name = 'cancelled-customer';
+        return view('orders.'.$view_name)->with('orders', Order::permanentlyCancelled()->orderBy('created_at', 'desc')->get());
     }
 
 

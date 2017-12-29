@@ -23,6 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'orders', 'as' => 'orders.'], function () {
     Route::get('/waiting', 'OrderController@waitingList')->name('waiting');
     Route::get('/confirmed', 'OrderController@confirmedList')->name('confirmed');
+    Route::get('/cancelled', 'OrderController@cancelledList')->name('cancelled');
 });
 
 Route::resources([
