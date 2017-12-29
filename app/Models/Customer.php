@@ -16,7 +16,12 @@ class Customer extends User
     }
 
     public static function menu_items() {
-        return [];
+        return [
+            [
+                'title' => 'Shopping bag',
+                'route' => route('shopping-bag.index')
+            ],
+        ];
     }
 
 }

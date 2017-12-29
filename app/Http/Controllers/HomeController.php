@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,6 @@ class HomeController extends Controller
             return redirect()->route('customers.index');
         }
 
-        return view('home');
+        return view('home')->with('articles', Article::all());
     }
 }

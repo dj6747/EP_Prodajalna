@@ -31,4 +31,5 @@ Route::resources([
     'customers' => 'CustomerController',
     'articles' => 'ArticleController',
     'orders' => 'OrderController',
+    'shopping-bag' => 'ShoppingBagController',
 ]);
