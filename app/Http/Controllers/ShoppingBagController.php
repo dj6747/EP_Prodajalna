@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response;
 
 class ShoppingBagController extends Controller
 {
@@ -15,7 +16,7 @@ class ShoppingBagController extends Controller
      */
     public function index(Request $request)
     {
-        $bag = $request->session()->get('shopping_cart.articles');
+        $bag = $request->session()->get('shopping_cart.articles', []);
 
         $articles = Article::whereIn('id', array_column($bag, 'id'));
 
@@ -29,16 +30,6 @@ class ShoppingBagController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -47,30 +38,29 @@ class ShoppingBagController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        //TODO: validate
-        $request->session()->push('shopping_cart.articles', ['id' => $data['id'], 'quantity' => $data['quantity']]);
-    }
+        $bag = $request->session()->get('shopping_cart.articles', []);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        foreach ($bag as &$item) {
+            if ($data['id'] === $item['id']) {
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+                if (!isset($data['type'])) {
+                    $item['quantity'] += $data['quantity'];
+                } else {
+                    $item['quantity'] = $data['quantity'];
+                }
+
+                $data = null;
+                break;
+            }
+        }
+
+        if ($data) {
+            $bag[] = ['id' => $data['id'], 'quantity' => $data['quantity']];
+        }
+
+        $request->session()->put('shopping_cart.articles', $bag);
+
+        return Response::json(['status' => 'ok']);
     }
 
     /**
@@ -82,17 +72,25 @@ class ShoppingBagController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->request->add(['id' => $id, 'type' => 'update']);
+        return $this->store($request);
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $bag = $request->session()->get('shopping_cart.articles', []);
+
+        $key = array_search($id, array_column($bag, 'id'));
+        unset($bag[$key]);
+
+        $request->session()->put('shopping_cart.articles', $bag);
+        return Response::json(['status' => 'ok']);
     }
 }
