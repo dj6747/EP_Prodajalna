@@ -7,7 +7,7 @@
             <div class="col-md-3">
                 <b>{{$article->name}}</b>
                 <p>
-                <img src="{{$article->image}}"height="42" width="42">
+                <img src="{{$article->image}}"height="100" width="100">
                 <p>
                 {{$article->price}} €
                 <p>

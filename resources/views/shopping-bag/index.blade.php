@@ -3,14 +3,26 @@
 @section('content')
     <div class="container">
         <h3>Shopping bag</h3>
+        <div class="container">
         @foreach($bag as $article)
-            <div class="article-{{$article->id}}">
-                <span>{{$article}}</span>
-                <input type="text" id="{{$article->id}}" value="{{$article->quantity}}" />  {{--TODO: spremeni input v numeričen--}}
-                <button class="btn btn-primary" onclick="change_quantity('{{$article->id}}')">Change Quantity</button>
-                <button class="btn btn-danger" onclick="remove_article('{{$article->id}}')">Remove article</button>
+
+
+            <div class="col-md-3">
+                <b>{{$article->name}}</b>
+                <p>
+                    <img src="{{$article->image}}"height="100" width="100">
+                <p>
+                    {{$article->price}} €
+                <p>
+                    <label for="{{$article->id}}">Quantity:</label>
+                    <input type="number" id="{{$article->id}}" value="0" min="0" max="100"  class="form-control"/>
+                    <button class="btn btn-primary" onclick="change_quantity('{{$article->id}}')">Change Quantity</button>
+                <p>
+                    <button class="btn btn-danger" onclick="remove_article('{{$article->id}}')">Remove article</button>
+
             </div>
         @endforeach
+        </div>
         <br>
         <a class="btn btn-success" href="{{route('orders.create')}}">Order</a>
     </div>

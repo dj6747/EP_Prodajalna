@@ -4,10 +4,19 @@
 <div class="container">
     <h3>Articles</h3>
     @foreach($articles as $article)
-        {{$article->name}}
-        <label for="{{$article->id}}">Quantity:</label>
-        <input type="text" id="{{$article->id}}" value="0" /> {{--TODO: spremeni input v numeričen--}}
-        <button class="btn btn-primary" onclick="buy('{{$article->id}}')">Buy</button>
+        <div class="col-md-3">
+            <b>{{$article->name}}</b>
+            <p>
+                <img src="{{$article->image}}"height="100" width="100">
+            <p>
+                {{$article->price}} €
+            <p>
+                <label for="{{$article->id}}">Quantity:</label>
+                <input type="number" id="{{$article->id}}" value="0"  class="form-control" min="0" max="100"/>
+            <p>
+                <button class="btn btn-primary" onclick="buy('{{$article->id}}')">Buy</button>
+
+        </div>
     @endforeach
 </div>
 @endsection
