@@ -21,6 +21,7 @@ class ShoppingBagController extends Controller
         $articles = Article::whereIn('id', array_column($bag, 'id'));
 
         $bag = collect($bag)->map(function($item) use ($articles) {
+            $articles = clone $articles;
             $article = $articles->where('id', $item['id'])->first();
             $article->quantity = $item['quantity'];
             return $article;
