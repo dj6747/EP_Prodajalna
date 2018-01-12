@@ -7,19 +7,27 @@
         @foreach($bag as $article)
 
 
-            <div class="col-md-3">
+            <div class="col-md-3 article-{{$article->id}}">
                 <b>{{$article->name}}</b>
-                <p>
+                <div>
                     <img src="{{$article->image}}"height="100" width="100">
-                <p>
+                </div>
+                <div>
                     {{$article->price}} €
-                <p>
+                </div>
+                <div>
                     <label for="{{$article->id}}">Quantity:</label>
+                </div>
+                <div class="input-group">
                     <input type="number" id="{{$article->id}}" value="0" min="0" max="100"  class="form-control"/>
-                    <button class="btn btn-primary" onclick="change_quantity('{{$article->id}}')">Change Quantity</button>
-                <p>
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" onclick="change_quantity('{{$article->id}}')">Change Quantity</button>
+                    </span>
+                </div>
+                <br>
+                <div>
                     <button class="btn btn-danger" onclick="remove_article('{{$article->id}}')">Remove article</button>
-
+                </div>
             </div>
         @endforeach
         </div>
