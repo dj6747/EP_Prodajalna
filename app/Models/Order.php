@@ -59,7 +59,7 @@ class Order extends Model
 
     public function articles()
     {
-        return $this->belongsToMany('App\Models\Article', 'orders_articles');
+        return $this->belongsToMany('App\Models\Article', 'orders_articles')->withPivot('quantity');
     }
 
 }

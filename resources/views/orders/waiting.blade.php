@@ -20,8 +20,8 @@
             <tr>
                 <th>{{$article->name}}</th>
                 <td>{{$article->price}}</td>
-                <td>{{$article->quantity}}</td>
-                <td>{{$article->price*$article->quantity}}</td>
+                <td>{{$article->pivot->quantity}}</td>
+                <td>{{$article->price*$article->pivot->quantity}}</td>
             </tr>
         @endforeach
             </tbody>
