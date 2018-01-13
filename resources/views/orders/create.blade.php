@@ -36,6 +36,22 @@
         </ul>
 
 
-        <button class="btn btn-success">Finish</button> {{--TODO: POST to route(order.store)--}}
+        <button class="btn btn-success" onclick="finish()">Finish</button>
     </div>
+@endsection
+
+@section('scripts')
+    <script type="application/javascript">
+        var finish = function() {
+            $.ajax({
+                url: '{{route('orders.store')}}',
+                type: 'POST',
+                data: null,
+                success: function(res) {
+                    window.location.href = '/home';
+                },
+                contentType : 'application/json'
+            });
+        }
+    </script>
 @endsection

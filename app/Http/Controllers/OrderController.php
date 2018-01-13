@@ -77,7 +77,22 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //TODO: store to orders table, articles are in session
+        $bag = $request->session()->get('shopping_cart.articles', []);
+
+        $bag = collect($bag)->map(function($item) {
+            $article = [
+                'article_id' => $item['id'],
+                'quantity' => $item['quantity']
+            ];
+            return $article;
+        });
+
+        $order = new Order();
+        $order->customer_id = Auth::user()->id;
+        $order->save();
+        $order->articles()->attach($bag);
+        $request->session()->forget('shopping_cart.articles');
+        return response()->json(['status' => 'ok']);
     }
 
     /**
