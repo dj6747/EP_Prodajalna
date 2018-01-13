@@ -62,4 +62,9 @@ class Order extends Model
         return $this->belongsToMany('App\Models\Article', 'orders_articles')->withPivot('quantity');
     }
 
+    public function customer()
+    {
+        return $this->hasOne('App\Models\Customer', 'id', 'customer_id');
+    }
+
 }

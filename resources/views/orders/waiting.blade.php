@@ -4,7 +4,7 @@
     <h3>Waiting orders</h3>
     @foreach($orders as $order)
 
-        STRANKA: {{$order->customer_id}}<br>
+        STRANKA: {{$order->customer}}<br>
         ČAS: {{$order->created_at}}<br>
         <table class="table">
             <thead>
