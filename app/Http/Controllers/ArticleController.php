@@ -70,6 +70,34 @@ class ArticleController extends Controller
             ->with('article', Article::find($id));
     }
 
+    public function update(Request $request, $id)
+    {
+        $data = Input::all();
+        $validator = Validator::make($data, [
+            'name' => 'required|string|max:20',
+            'price' => 'required|numeric',
+            'description' => 'required',
+            'image' => 'required|URL',
+            'active' => ['required', Rule::in([0,1])]
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('articles.edit')
+                ->withErrors($validator)
+                ->withInput(Input::all());
+        }
+
+        $article = Article::find($id);
+        $article->name = $data['name'];
+        $article->price = $data['price'];
+        $article->description = $data['description'];
+        $article->image = $data['image'];
+        $article->active = $data['active'];
+        $article->save();
+
+        return redirect()->route('articles.index');
+    }
+
     public function destroy($id)
     {
         Article::destroy($id);

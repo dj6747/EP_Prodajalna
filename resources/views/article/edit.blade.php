@@ -8,14 +8,14 @@
                     <div class="panel-heading">My profile</div>
 
                     <div class="panel-body">
-                        {!!  Form::open(array('url' => '/articles/', 'method' => 'POST', 'class' => 'form-horizontal')) !!}
+                        {!!  Form::model($article, array('route' => array('articles.update', $article->id), 'method' => 'PUT', 'class' => 'form-horizontal')) !!}
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="" required autofocus>
+                                <input id="name" type="text" class="form-control" name="name" value="{{$article->name}}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -29,7 +29,7 @@
                             <label for="price" class="col-md-4 control-label">Price</label>
 
                             <div class="col-md-6">
-                                <input id="price" type="text" class="form-control" name="price" value="" required autofocus>
+                                <input id="price" type="text" class="form-control" name="price" value="{{$article->price}}" required autofocus>
 
                                 @if ($errors->has('price'))
                                     <span class="help-block">
@@ -43,7 +43,7 @@
                             <label for="description" class="col-md-4 control-label">Description</label>
 
                             <div class="col-md-6">
-                                <input id="description" type="text" class="form-control" name="description" value="" disabled>
+                                <input id="description" type="text" class="form-control" name="description" value="{{$article->description}}" >
 
                                 @if ($errors->has('description'))
                                     <span class="help-block">
@@ -58,7 +58,7 @@
                             <label for="image" class="col-md-4 control-label">Image</label>
 
                             <div class="col-md-6">
-                                <input id="image" type="text" class="form-control" name="image" value="" required>
+                                <input id="image" type="text" class="form-control" name="image" value="{{$article->image}}" required>
 
                                 @if ($errors->has('image'))
                                     <span class="help-block">
@@ -72,8 +72,8 @@
                             <label for="active" class="col-md-4 control-label">Active</label>
 
                             <div class="col-md-6">
-                                <input id="active" type="radio" name="active" value="1" >Yes<br>
-                                <input type="radio" name="active" value="0" >No<br>
+                                <input id="active" type="radio" name="active" value="1" @if($article->active) checked @endif>Yes<br>
+                                <input type="radio" name="active" value="0" @if(!$article->active) checked @endif >No<br>
 
                                 @if ($errors->has('active'))
                                     <span class="help-block">
