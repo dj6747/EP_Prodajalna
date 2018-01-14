@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\User;
 use App\Models\ZipCode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CustomerController extends Controller
 {
@@ -73,7 +78,46 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = Input::all();
+        $user = User::find($id);
+        $zip_code_ids = ZipCode::all()->pluck('id')->toArray();
+        $rules = [
+            'firstname' => 'required|string|max:20',
+            'lastname' => 'required|string|max:20',
+            'email' => ['required', 'email', Rule::unique('users')->ignore($id)],
+            'phone' => 'required',
+            'address' => 'required|string',
+            'zip_code_id' => ['required', Rule::in($zip_code_ids)]
+        ];
+
+        if ($data['password']) {
+            $rules['password'] = 'required|min:6|confirmed';
+        }
+
+        $validator = Validator::make($data, $rules);
+
+
+        if ($validator->fails()) {
+            return redirect()->route('customers.edit', $id)
+                ->withErrors($validator)
+                ->withInput(Input::except('password', 'password_confirmation', 'oldpassword'));
+        } else {
+            $user->firstname = $data['firstname'];
+            $user->lastname = $data['lastname'];
+            $user->phone = $data['phone'];
+            $user->address = $data['address'];
+            $user->zip_code_id = $data['zip_code_id'];
+            $user->email = $data['email'];
+
+            if ($data['password']) {
+                $user->password = Hash::make($data['password']);
+            }
+
+            $user->active = (int) $data['active'];
+            $user->save();
+        }
+
+        return redirect()->route('customers.index');
     }
 
     /**
