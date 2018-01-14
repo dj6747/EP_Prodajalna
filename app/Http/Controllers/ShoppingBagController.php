@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Response;
 
 class ShoppingBagController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('customer');
+    }
+
     /**
      * Display a listing of the resource.
      *
