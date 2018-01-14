@@ -26,7 +26,7 @@ class ArticleController extends Controller
     public function index()
     {
         if(Auth::user()->role === User::ROLE_CUSTOMER) {
-            return view('articles')->with('articles', Article::all());
+            return view('articles')->with('articles', Article::where('active', 1)->get());
         }
         elseif (Auth::user()->role === User::ROLE_SELLER) {
             return view('sellers.articles-list')->with('articles', Article::all());

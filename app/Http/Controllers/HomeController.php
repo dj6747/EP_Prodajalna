@@ -34,6 +34,6 @@ class HomeController extends Controller
             return redirect()->route('customers.index');
         }
 
-        return view('home')->with('articles', Article::all());
+        return view('home')->with('articles', Article::where('active', 1)->get());
     }
 }

@@ -17,6 +17,6 @@ class HomeUnauthorizedController extends Controller
      */
     public function index()
     {
-        return view('home-unauthorized')->with('articles', Article::all());
+        return view('home-unauthorized')->with('articles', Article::where('active', 1)->get());
     }
 }
