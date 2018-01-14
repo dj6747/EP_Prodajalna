@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
@@ -65,21 +66,22 @@ class MyProfileController extends Controller
             return redirect()->route('my-profile.index')
                 ->withErrors($validator)
                 ->withInput(Input::except('password', 'password_confirmation', 'oldpassword'));
-        } else {
-            $user = Auth::user();
-            $user->firstname = $data['firstname'];
-            $user->lastname = $data['lastname'];
-            $user->phone = $data['phone'];
-            $user->address = $data['address'];
-            $user->zip_code_id = $data['zip_code_id'];
-            $user->email = $data['email'];
-
-            if ($data['password']) {
-                $user->password = Hash::make($data['password']);
-            }
-
-            $user->save();
         }
+
+        $user = Auth::user();
+        $user->firstname = $data['firstname'];
+        $user->lastname = $data['lastname'];
+        $user->phone = $data['phone'];
+        $user->address = $data['address'];
+        $user->zip_code_id = $data['zip_code_id'];
+        $user->email = $data['email'];
+
+        if ($data['password']) {
+            $user->password = Hash::make($data['password']);
+        }
+
+        $user->save();
+        Log::info('User with id '.Auth::user()->id." edited his profile data.");
 
         return redirect()->route('home');
     }

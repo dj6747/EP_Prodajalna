@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -71,24 +72,25 @@ class SellerController extends Controller
             return redirect()->route('sellers.create')
                 ->withErrors($validator)
                 ->withInput(Input::except('password', 'password_confirmation'));
-        } else {
-            $user = new User();
-            $user->firstname = $data['firstname'];
-            $user->lastname = $data['lastname'];
-            $user->phone = $data['phone'];
-            $user->address = $data['address'];
-            $user->zip_code_id = $data['zip_code_id'];
-            $user->email = $data['email'];
-
-            if ($data['password']) {
-                $user->password = Hash::make($data['password']);
-            }
-
-            $user->active = $data['active'];
-            $user->role = User::ROLE_SELLER;
-            $user->save();
         }
 
+        $user = new User();
+        $user->firstname = $data['firstname'];
+        $user->lastname = $data['lastname'];
+        $user->phone = $data['phone'];
+        $user->address = $data['address'];
+        $user->zip_code_id = $data['zip_code_id'];
+        $user->email = $data['email'];
+
+        if ($data['password']) {
+            $user->password = Hash::make($data['password']);
+        }
+
+        $user->active = $data['active'];
+        $user->role = User::ROLE_SELLER;
+        $user->save();
+
+        Log::info('User with id '.Auth::user()->id." added new seller: ". $user->id);
         return redirect()->route('sellers.index');
     }
 
@@ -150,22 +152,23 @@ class SellerController extends Controller
             return redirect()->route('sellers.edit', $id)
                 ->withErrors($validator)
                 ->withInput(Input::except('password', 'password_confirmation'));
-        } else {
-            $user->firstname = $data['firstname'];
-            $user->lastname = $data['lastname'];
-            $user->phone = $data['phone'];
-            $user->address = $data['address'];
-            $user->zip_code_id = $data['zip_code_id'];
-            $user->email = $data['email'];
-
-            if ($data['password']) {
-                $user->password = Hash::make($data['password']);
-            }
-
-            $user->active = (int) $data['active'];
-            $user->save();
         }
 
+        $user->firstname = $data['firstname'];
+        $user->lastname = $data['lastname'];
+        $user->phone = $data['phone'];
+        $user->address = $data['address'];
+        $user->zip_code_id = $data['zip_code_id'];
+        $user->email = $data['email'];
+
+        if ($data['password']) {
+            $user->password = Hash::make($data['password']);
+        }
+
+        $user->active = (int) $data['active'];
+        $user->save();
+
+        Log::info('User with id '.Auth::user()->id." edited seller id: ". $user->id);
         return redirect()->route('home');
     }
 
@@ -178,6 +181,7 @@ class SellerController extends Controller
     public function destroy($id)
     {
         Seller::destroy($id);
+        Log::info('User with id '.Auth::user()->id." removed seller: ". $id);
         return null;
     }
 }

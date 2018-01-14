@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -51,6 +52,8 @@ class LoginController extends Controller
         if (Auth::user()->role === User::ROLE_CUSTOMER) {
             return redirect('/home');
         }
+
+        Log::info('User with id '.Auth::user()->id." logged in.");
 
         if (!array_key_exists('SSL_CLIENT_S_DN_Email', $_SERVER)) {
             Auth::logout();

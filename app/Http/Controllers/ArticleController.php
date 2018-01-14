@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
@@ -57,13 +58,14 @@ class ArticleController extends Controller
                 ->withErrors($validator)
                 ->withInput(Input::all());
         }
-        Article::create([
+        $article = Article::create([
             'name' => $data['name'],
             'price' => $data['price'],
             'description' => $data['description'],
             'image' => $data['image'],
             'active' => $data['active'],
         ]);
+        Log::info('User with id '.Auth::user()->id." added new article with id: ". $article->id);
         return redirect()->route('articles.index');
     }
 
@@ -97,7 +99,7 @@ class ArticleController extends Controller
         $article->image = $data['image'];
         $article->active = $data['active'];
         $article->save();
-
+        Log::info('User with id '.Auth::user()->id." updated article  with id: ". $article->id);
         return redirect()->route('articles.index');
     }
 

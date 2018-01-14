@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -151,6 +152,7 @@ class OrderController extends Controller
         $order->review_status = in_array($data['review_status'] , Order::STATUSES) ? $data['review_status'] : 0;
         $order->reviewed_by = Auth::user()->id;
         $order->save();
+        Log::info('User with id '.Auth::user()->id." updated review status on order id: ". $order->id);
         return response()->json(['status' => 'ok']);
     }
 
