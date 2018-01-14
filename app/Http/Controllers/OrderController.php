@@ -18,11 +18,13 @@ class OrderController extends Controller
     public function index()
     {
         $view_name = 'waiting';
+        $orders = Order::waiting();
         if (Auth::user()->role === User::ROLE_CUSTOMER) {
             $view_name = 'waiting-customer';
+            $orders->where('customer_id', Auth::user()->id);
         }
 
-        return view('orders.'.$view_name)->with('orders', Order::waiting()->orderBy('created_at', 'desc')->get());
+        return view('orders.'.$view_name)->with('orders', $orders->orderBy('created_at', 'desc')->get());
     }
 
     public function waitingList()
@@ -33,18 +35,21 @@ class OrderController extends Controller
     public function confirmedList()
     {
         $view_name = 'confirmed';
+        $orders = Order::confirmed();
         if (Auth::user()->role === User::ROLE_CUSTOMER) {
             $view_name = 'confirmed-customer';
+            $orders->where('customer_id', Auth::user()->id);
         }
 
-        return view('orders.'.$view_name)->with('orders', Order::confirmed()->orderBy('created_at', 'desc')->get());
+        return view('orders.'.$view_name)->with('orders', $orders->orderBy('created_at', 'desc')->get());
     }
 
 
     public function cancelledList()
     {
         $view_name = 'cancelled-customer';
-        return view('orders.'.$view_name)->with('orders', Order::permanentlyCancelled()->orderBy('created_at', 'desc')->get());
+        $orders = Order::permanentlyCancelled()->where('customer_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        return view('orders.'.$view_name)->with('orders', $orders);
     }
 
 
