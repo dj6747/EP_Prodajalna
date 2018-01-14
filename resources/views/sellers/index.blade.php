@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+    <a class="btn btn-default" href="/sellers/create" role="button">Add seller</a>
     <table class="table table-striped">
         <thead>
         <tr>

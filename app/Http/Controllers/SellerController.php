@@ -6,6 +6,7 @@ use App\Models\Seller;
 use App\Models\User;
 use App\Models\ZipCode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
@@ -31,7 +32,7 @@ class SellerController extends Controller
      */
     public function create()
     {
-        //
+        return view('sellers.create')->with('zip_codes', ZipCode::all());
     }
 
     /**
@@ -42,7 +43,47 @@ class SellerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = Input::all();
+        $zip_code_ids = ZipCode::all()->pluck('id')->toArray();
+        $rules = [
+            'firstname' => 'required|string|max:20',
+            'lastname' => 'required|string|max:20',
+            'email' => ['required', 'email', Rule::unique('users')],
+            'phone' => 'required',
+            'address' => 'required|string',
+            'zip_code_id' => ['required', Rule::in($zip_code_ids)]
+        ];
+
+        if ($data['password']) {
+            $rules['password'] = 'required|min:6|confirmed';
+        }
+
+        $validator = Validator::make($data, $rules);
+
+
+        if ($validator->fails()) {
+            return redirect()->route('sellers.create')
+                ->withErrors($validator)
+                ->withInput(Input::except('password', 'password_confirmation'));
+        } else {
+            $user = new User();
+            $user->firstname = $data['firstname'];
+            $user->lastname = $data['lastname'];
+            $user->phone = $data['phone'];
+            $user->address = $data['address'];
+            $user->zip_code_id = $data['zip_code_id'];
+            $user->email = $data['email'];
+
+            if ($data['password']) {
+                $user->password = Hash::make($data['password']);
+            }
+
+            $user->active = $data['active'];
+            $user->role = User::ROLE_SELLER;
+            $user->save();
+        }
+
+        return redirect()->route('sellers.index');
     }
 
     /**
