@@ -64,7 +64,7 @@ class Order extends Model
 
     public function customer()
     {
-        return $this->hasOne('App\Models\Customer', 'id', 'customer_id');
+        return $this->belongsTo('App\Models\Customer');
     }
 
 }
