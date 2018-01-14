@@ -68,6 +68,7 @@ class RegisterController extends Controller
             'address' => 'required|string',
             'zip_code_id' => ['required', Rule::in($zip_code_ids)],
             'password' => 'required|string|min:6|confirmed',
+            'captcha' => 'required|captcha'
         ]);
     }
 
