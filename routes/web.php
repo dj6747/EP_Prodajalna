@@ -28,7 +28,7 @@ Route::resources([
     'my-profile' => 'MyProfileController',
     'sellers' => 'SellerController',
     'customers' => 'CustomerController',
-    'articles' => 'ArticleController',
+    'articles' => '\App\Http\Controllers\ArticleController',
     'orders' => 'OrderController',
     'shopping-bag' => 'ShoppingBagController',
 ]);

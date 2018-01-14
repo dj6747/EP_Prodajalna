@@ -314,6 +314,7 @@ class ComposerStaticInit6f6a2c3b5f83268cbc0111cb21e12e5e
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\Api\\ArticleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ArticleController.php',
         'App\\Http\\Controllers\\ArticleController' => __DIR__ . '/../..' . '/app/Http/Controllers/ArticleController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
@@ -329,6 +330,7 @@ class ComposerStaticInit6f6a2c3b5f83268cbc0111cb21e12e5e
         'App\\Http\\Controllers\\ShoppingBagController' => __DIR__ . '/../..' . '/app/Http/Controllers/ShoppingBagController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Admin' => __DIR__ . '/../..' . '/app/Http/Middleware/Admin.php',
+        'App\\Http\\Middleware\\Customer' => __DIR__ . '/../..' . '/app/Http/Middleware/Customer.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
         'App\\Http\\Middleware\\Seller' => __DIR__ . '/../..' . '/app/Http/Middleware/Seller.php',
