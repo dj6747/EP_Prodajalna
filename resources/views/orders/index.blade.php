@@ -10,3 +10,24 @@
         @yield('orders')
     </div>
 @endsection
+
+@section('scripts')
+    <script type="application/javascript">
+        var changeStatus = function(id, status) {
+            $.ajax({
+                url: '/orders/'+id,
+                type: 'PUT',
+                data: JSON.stringify({
+                    review_status: status
+                }),
+                success: function(res) {
+                    if (res.status === 'ok') {
+                        window.location.reload();
+                    }
+                },
+                contentType : 'application/json'
+            });
+        }
+
+    </script>
+@endsection

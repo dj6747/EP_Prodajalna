@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 
 class OrderController extends Controller
 {
@@ -131,7 +132,16 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = Input::all();
+        $order = Order::find($id);
+        if (!$order) {
+            return response()->json(['status' => 'error']);
+        }
+
+        $order->review_status = in_array($data['review_status'] , Order::STATUSES) ? $data['review_status'] : 0;
+        $order->reviewed_by = Auth::user()->id;
+        $order->save();
+        return response()->json(['status' => 'ok']);
     }
 
     /**

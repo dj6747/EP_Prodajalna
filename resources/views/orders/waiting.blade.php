@@ -41,8 +41,8 @@
 
             </tbody>
         </table>
-        <button class="btn btn-success" onclick="accept()">Accept</button>
-        <button class="btn btn-danger" onclick="refuse()">Refuse</button>
+        <button class="btn btn-success" onclick="changeStatus('{{$order->id}}', 1)">Accept</button>
+        <button class="btn btn-danger" onclick="changeStatus('{{$order->id}}', 0)">Refuse</button>
         <br>
         <br>
     @endforeach

@@ -40,6 +40,7 @@
 
             </tbody>
         </table>
+        <button class="btn btn-danger" onclick="changeStatus('{{$order->id}}', -2)">Storno</button>
         <br>
         <br>
     @endforeach

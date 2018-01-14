@@ -11,6 +11,8 @@ class Order extends Model
     const WAITING = 0;
     const CONFIRMED = 1;
 
+    const STATUSES = [self::PERMANENTLY_CANCELLED, self::CANCELLED, self::WAITING, self::CONFIRMED];
+
     protected $fillable = [
         'customer_id', 'review_status', 'reviewed_by'
     ];
