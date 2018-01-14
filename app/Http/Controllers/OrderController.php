@@ -49,7 +49,12 @@ class OrderController extends Controller
     public function cancelledList()
     {
         $view_name = 'cancelled-customer';
-        $orders = Order::permanentlyCancelled()->where('customer_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        $orders = Order::where(function ($query) {
+            $query->where('review_status', Order::CANCELLED)
+            ->orWhere('review_status', Order::PERMANENTLY_CANCELLED);
+        })
+        ->where('customer_id', Auth::user()->id)->orderBy('created_at', 'desc')
+        ->get();
         return view('orders.'.$view_name)->with('orders', $orders);
     }
 

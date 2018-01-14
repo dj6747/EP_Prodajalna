@@ -31,7 +31,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view('customers.create')->with('zip_codes', ZipCode::all());
     }
 
     /**
@@ -42,7 +42,47 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = Input::all();
+        $zip_code_ids = ZipCode::all()->pluck('id')->toArray();
+        $rules = [
+            'firstname' => 'required|string|max:20',
+            'lastname' => 'required|string|max:20',
+            'email' => ['required', 'email', Rule::unique('users')],
+            'phone' => 'required',
+            'address' => 'required|string',
+            'zip_code_id' => ['required', Rule::in($zip_code_ids)]
+        ];
+
+        if ($data['password']) {
+            $rules['password'] = 'required|min:6|confirmed';
+        }
+
+        $validator = Validator::make($data, $rules);
+
+
+        if ($validator->fails()) {
+            return redirect()->route('customers.create')
+                ->withErrors($validator)
+                ->withInput(Input::except('password', 'password_confirmation'));
+        } else {
+            $user = new User();
+            $user->firstname = $data['firstname'];
+            $user->lastname = $data['lastname'];
+            $user->phone = $data['phone'];
+            $user->address = $data['address'];
+            $user->zip_code_id = $data['zip_code_id'];
+            $user->email = $data['email'];
+
+            if ($data['password']) {
+                $user->password = Hash::make($data['password']);
+            }
+
+            $user->active = $data['active'];
+            $user->role = User::ROLE_CUSTOMER;
+            $user->save();
+        }
+
+        return redirect()->route('customers.index');
     }
 
     /**

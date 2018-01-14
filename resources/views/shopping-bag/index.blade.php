@@ -4,6 +4,9 @@
     <div class="container">
         <h3>Shopping bag</h3>
         <div class="container">
+            <div class="alert alert-success hidden">
+                Shopping bag refreshed
+            </div>
         @foreach($bag as $article)
 
 
@@ -19,7 +22,7 @@
                     <label for="{{$article->id}}">Quantity:</label>
                 </div>
                 <div class="input-group">
-                    <input type="number" id="{{$article->id}}" value="0" min="0" max="100"  class="form-control"/>
+                    <input type="number" id="{{$article->id}}" value="{{$article->quantity}}" min="0" max="100"  class="form-control"/>
                     <span class="input-group-btn">
                         <button class="btn btn-primary" onclick="change_quantity('{{$article->id}}')">Change Quantity</button>
                     </span>
@@ -53,8 +56,11 @@
                     quantity: quantity
                 }),
                 success: function(res) {
-                    $('#'+id).val(0);
-                    window.location.reload();//TODO: posodobi view ko se updata z novo količino brez reloada
+                    $('#'+id).val(quantity);
+                    $('.alert-success').removeClass('hidden');
+                    setTimeout(function() {
+                        $('.alert-success').addClass('hidden');
+                    }, 2000);
                 },
                 contentType : 'application/json',
             });
